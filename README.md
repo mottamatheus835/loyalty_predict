@@ -1,0 +1,2 @@
+# loyalty_predict
+Projeto criado como pratica e estudo de como prever comportamento/engajamento de usuários usando dados reais e anonimizados. Esse projeto é idealizado pelo Teo Calvo do Teo Me Why, sendo o original dele para a comunidade, mas aqui nesse repositório está a minha versão pessoal e contribuição com uma versão atual da análise (2026).
