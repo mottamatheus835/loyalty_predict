@@ -1,0 +1,28 @@
+WITH tb_daily AS (
+    
+    SELECT DISTINCT 
+        substr(DtCriacao, 0, 11) AS DtDia,
+        IdCliente
+
+    FROM transacoes
+
+    ORDER BY DtDia
+),
+
+tb_distinct AS (
+    SELECT 
+        DISTINCT DtDia AS DtRef
+    FROM tb_daily
+)
+SELECT t1.DtRef,
+       COUNT(DISTINCT IdCliente) AS MAU,
+       COUNT(DISTINCT t2.DtDia) AS QTDE_DIAS
+FROM tb_distinct AS t1
+
+LEFT JOIN tb_daily AS t2 ON t2.DtDia <= t1.DtRef
+AND julianday(t1.DtRef) - julianday(t2.DtDia) < 28
+
+GROUP BY t1.DtRef
+ORDER BY t1.DtRef ASC
+
+LIMIT 1000
