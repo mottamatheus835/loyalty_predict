@@ -63,4 +63,3 @@ SUM(CASE desSlugCurso = 'tse-analytics-2024' THEN percentCursoCompleto ELSE 0) A
 
 from tb_percent_curso
 
-GROUP BY idUsuario
