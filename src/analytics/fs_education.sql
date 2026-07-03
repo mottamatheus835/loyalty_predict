@@ -29,6 +29,8 @@ tb_percent_curso AS (
 
  SELECT 
     idUsuario, 
+    SUM(CASE WHEN percentCursoCompleto = 1 THEN 1 ELSE 0 END) AS qtdeCursosCompletos,
+    SUM(CASE WHEN percentCursoCompleto > 0 AND percentCursoCompleto < 1 THEN 1 ELSE 0 END) AS qtdeCursosIncompletos,
 
     SUM(CASE WHEN descSlugCurso = 'carreira' THEN percentCursoCompleto ELSE 0 END) AS carreira,
     SUM(CASE WHEN descSlugCurso = 'coleta-dados-2024' THEN percentCursoCompleto ELSE 0 END) AS coletaDados2024,
