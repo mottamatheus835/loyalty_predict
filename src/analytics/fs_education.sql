@@ -5,6 +5,8 @@ WITH tb_usuario_eps AS (
 
     FROM cursos_episodios_completos  
 
+    WHERE dtCriacao < '2025-10-01'
+
     GROUP BY idUsuario, descSlugCurso) ,
 
 tb_curso AS (
@@ -25,9 +27,10 @@ tb_percent_curso AS (
  
  FROM tb_usuario_eps AS T1
  LEFT JOIN tb_curso AS T2 ON T1.descSlugCurso = T2.descSlugCurso
- GROUP BY T1.idUsuario, T1.descSlugCurso)
+ GROUP BY T1.idUsuario, T1.descSlugCurso),
 
- SELECT 
+
+tb_pivot_cursos AS (SELECT 
     idUsuario, 
     SUM(CASE WHEN percentCursoCompleto = 1 THEN 1 ELSE 0 END) AS qtdeCursosCompletos,
     SUM(CASE WHEN percentCursoCompleto > 0 AND percentCursoCompleto < 1 THEN 1 ELSE 0 END) AS qtdeCursosIncompletos,
@@ -65,4 +68,63 @@ tb_percent_curso AS (
 
 from tb_percent_curso
 
-GROUP BY idUsuario
+GROUP BY idUsuario),
+
+tb_atividade AS
+  (  SELECT 
+        idUsuario,   
+        MAX(dtCriacao) AS dtCriacao
+
+    FROM habilidades_usuarios 
+    WHERE dtCriacao < '2025-10-01'
+    GROUP BY idUsuario
+
+UNION ALL
+
+   SELECT 
+        idUsuario,
+        MAX(dtRecompensa) AS dtCriacao
+
+    FROM recompensas_usuarios
+    WHERE dtRecompensa < '2025-10-01'
+    GROUP BY idUsuario
+
+UNION ALL
+
+  SELECT 
+        idUsuario,
+        MAX(dtCriacao) AS dtCriacao
+
+    FROM cursos_episodios_completos
+    WHERE dtCriacao < '2025-10-01'
+    GROUP BY idUsuario
+),
+
+tb_ultima_atividade AS (
+    SELECT 
+    idUsuario,
+    MIN(JULIANDAY('2025-10-01') - JULIANDAY(dtCriacao)) AS qtdeDiasUltimaAtividade
+
+    FROM tb_atividade
+
+    GROUP BY idUsuario),
+
+
+tb_join AS (
+    SELECT 
+    T3.idTMWCliente AS IdCliente,
+    T1.*,
+    T2.qtdeDiasUltimaAtividade
+
+FROM tb_pivot_cursos AS T1
+
+LEFT JOIN tb_ultima_atividade AS T2 ON T1.idUsuario = T2.idUsuario
+
+INNER JOIN usuarios_tmw AS T3 ON T1.idUsuario = T3.idUsuario)
+
+SELECT 
+    DATE('2025-10-01', '-1 DAY') AS dtRef,
+    *
+
+FROM tb_join
+;
