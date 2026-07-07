@@ -28,13 +28,14 @@ dates = date_range('2024-01-01',  '2026-12-01')
 #print(dates)
 # %%
 
-for i in dates:
+for i in tqdm(dates, desc="Progresso: "):
     with engine_analytical.connect() as conn:
         try:
-            query_delete = f"DELETE FROM life_cycle WHERE dtRef = date('{i}' - '1 day')"
+            query_delete = f"DELETE FROM life_cycle WHERE dtRef = date('{i}', - '1 day')"
             conn.execute(sqlalchemy.text(query_delete))
             conn.commit()
-        except: pass
+        except:
+            continue
     
     #print(i)
     query_format = query.format(date=i)
