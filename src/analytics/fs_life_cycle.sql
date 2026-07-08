@@ -63,7 +63,12 @@ tb_join AS (
     LEFT JOIN tb_avg_ciclo AS T4 ON T1.descLifeCycleAtual = T4.descLifeCycleAtual
 )
 
-SELECT * FROM tb_join
-ORDER BY IdCliente
+SELECT 
+    DATE('2025-10-01', '-1 DAY') AS dtRef,
+    *
+
+FROM tb_join
+
+ORDER BY dtRef, IdCliente
 
 ;
