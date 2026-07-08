@@ -44,7 +44,7 @@ for i in tqdm(dates, desc="Progresso: "):
     df.to_sql('life_cycle', engine_analytical, index=False, if_exists='append')
 
 # %%
-#df.head()
+df.head()
 # %%
 #df[df['dtRef'] == None].value_counts()
 # %%

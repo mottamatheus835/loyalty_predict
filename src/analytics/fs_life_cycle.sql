@@ -1,6 +1,7 @@
 WITH tb_life_cycle_atual AS
     (SELECT 
         IdCliente,
+        qtdeFrequencia,
         descLifeCycle AS descLifeCycleAtual
 
     FROM life_cycle
@@ -14,7 +15,7 @@ tb_life_cycle_D28 AS (
 
     FROM life_cycle
 
-    WHERE dtRef = DATE('2026-05-01', '-28 DAY')), 
+    WHERE dtRef = DATE('2026-05-01', '-29 DAY')), 
 
 tb_share_ciclos AS (
     SELECT IdCliente,
@@ -33,21 +34,36 @@ tb_share_ciclos AS (
 
     GROUP BY IdCliente),
 
+tb_avg_ciclo AS (SELECT 
+        descLifeCycleAtual,
+        AVG(qtdeFrequencia) mediaFrequenciaGrupo
+
+    FROM tb_life_cycle_atual
+    GROUP BY descLifeCycleAtual
+),
+
 tb_join AS (
     SELECT 
         T1.*,
         T2.descLifeCycleD28,
-        curiosoShare,
+        T3.curiosoShare,
         T3.fielShare,
         T3.reconquistadoShare,
         T3.turistaShare,
         T3.desencantadoShare,
         T3.zumbiShare,
-        T3.rebornShare
+        T3.rebornShare,
+        T4.mediaFrequenciaGrupo,
+        1. * T1.qtdeFrequencia / T4.mediaFrequenciaGrupo AS proporcaoFreqGrupo
     
     FROM tb_life_cycle_atual AS T1
 
     LEFT JOIN tb_life_cycle_D28 AS T2 ON T1.IdCliente = T2.IdCliente
-    LEFT JOIN tb_ciclos_share AS T3 ON T1.IdCliente = T3.IdCliente
+    LEFT JOIN tb_share_ciclos AS T3 ON T1.IdCliente = T3.IdCliente
+    LEFT JOIN tb_avg_ciclo AS T4 ON T1.descLifeCycleAtual = T4.descLifeCycleAtual
 )
+
+SELECT * FROM tb_join
+ORDER BY IdCliente
+
 ;
