@@ -51,7 +51,7 @@ tb_life_cycle as (
             WHEN qtdeDiasUltTransacao BETWEEN 15 AND 28 THEN "04-DESENCANTADO"
             WHEN qtdeDiasUltTransacao >28 THEN "05-ZUMBI"
             WHEN qtdeDiasUltTransacao <= 7 AND (qtdeDiasPenultimaTransacao - qtdeDiasUltTransacao) BETWEEN 15 AND 28 THEN "02-RECONQUISTADO"
-            WHEN qtdeDiasUltTransacao <= 7 AND (qtdeDiasPenultimaTransacao - qtdeDiasUltTransacao) > 28 THEN "REBORN"
+            WHEN qtdeDiasUltTransacao <= 7 AND (qtdeDiasPenultimaTransacao - qtdeDiasUltTransacao) > 28 THEN "06-REBORN"
             END AS descLifeCycle
     FROM tb_idade as t1
     LEFT JOIN tb_penultima as t2

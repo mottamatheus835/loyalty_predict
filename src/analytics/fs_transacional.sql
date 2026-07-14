@@ -126,33 +126,36 @@ tb_share_produtos AS (SELECT
         LEFT JOIN produtos AS T3
         ON T2.IdProduto = T3.IdProduto
 
-        GROUP BY IdCliente)
+        GROUP BY IdCliente),
             
-            
+tb_join AS (SELECT 
+    T1.*,
+    T2.qtdeHorasVida,
+    T2.qtdeHorasD7,
+    T2.qtdeHorasD14,
+    T2.qtdeHorasD28,
+    T2.qtdeHorasD56,
+    T3.avgIntervaloDiasVida,
+    T3.avgIntervaloDiasD28,
+    T4.qtdeChatMessage,
+    T4.qtdeAirflowLover,
+    T4.qtdeRLover,
+    T4.qtdeResgatarPonei,
+    T4.qtdeListadepresenca,
+    T4.qtdePresencaStreak,
+    T4.qtdeTrocadePontosStreamElements,
+    T4.qtdeReembolsoTrocadePontosStreamElements,
+    T4.qtdeRPG,
+    T4.qtdeChurnModel
 
+    FROM tb_agg_calc AS T1
+
+    LEFT JOIN tb_hora_cliente AS T2 ON T1.IdCliente = T2.IdCliente
+    LEFT JOIN tb_intervalo_dias AS T3 ON T1.IdCliente = T3.IdCliente    
+    LEFT JOIN tb_share_produtos AS T4 ON T1.IdCliente = T4.IdCliente)
 
 SELECT 
-T1.*,
-T2.qtdeHorasVida,
-T2.qtdeHorasD7,
-T2.qtdeHorasD14,
-T2.qtdeHorasD28,
-T2.qtdeHorasD56,
-T3.avgIntervaloDiasVida,
-T3.avgIntervaloDiasD28,
-T4.qtdeChatMessage,
-T4.qtdeAirflowLover,
-T4.qtdeRLover,
-T4.qtdeResgatarPonei,
-T4.qtdeListadepresenca,
-T4.qtdePresencaStreak,
-T4.qtdeTrocadePontosStreamElements,
-T4.qtdeReembolsoTrocadePontosStreamElements,
-T4.qtdeRPG,
-T4.qtdeChurnModel
+    DATE('2025-10-01', '-1 DAY') AS dtRef,
+    *
 
-FROM tb_agg_calc AS T1
-
-LEFT JOIN tb_hora_cliente AS T2 ON T1.IdCliente = T2.IdCliente
-LEFT JOIN tb_intervalo_dias AS T3 ON T1.IdCliente = T3.IdCliente    
-LEFT JOIN tb_share_produtos AS T4 ON T1.IdCliente = T4.IdCliente
+FROM tb_join
