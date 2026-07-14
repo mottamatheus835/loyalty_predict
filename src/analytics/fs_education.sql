@@ -5,7 +5,7 @@ WITH tb_usuario_eps AS (
 
     FROM cursos_episodios_completos  
 
-    WHERE dtCriacao < '2025-10-01'
+    WHERE dtCriacao < '{date}'
 
     GROUP BY idUsuario, descSlugCurso) ,
 
@@ -76,7 +76,7 @@ tb_atividade AS
         MAX(dtCriacao) AS dtCriacao
 
     FROM habilidades_usuarios 
-    WHERE dtCriacao < '2025-10-01'
+    WHERE dtCriacao < '{date}'
     GROUP BY idUsuario
 
 UNION ALL
@@ -86,7 +86,7 @@ UNION ALL
         MAX(dtRecompensa) AS dtCriacao
 
     FROM recompensas_usuarios
-    WHERE dtRecompensa < '2025-10-01'
+    WHERE dtRecompensa < '{date}'
     GROUP BY idUsuario
 
 UNION ALL
@@ -96,14 +96,14 @@ UNION ALL
         MAX(dtCriacao) AS dtCriacao
 
     FROM cursos_episodios_completos
-    WHERE dtCriacao < '2025-10-01'
+    WHERE dtCriacao < '{date}'
     GROUP BY idUsuario
 ),
 
 tb_ultima_atividade AS (
     SELECT 
     idUsuario,
-    MIN(JULIANDAY('2025-10-01') - JULIANDAY(dtCriacao)) AS qtdeDiasUltimaAtividade
+    MIN(JULIANDAY('{date}') - JULIANDAY(dtCriacao)) AS qtdeDiasUltimaAtividade
 
     FROM tb_atividade
 
@@ -123,7 +123,7 @@ LEFT JOIN tb_ultima_atividade AS T2 ON T1.idUsuario = T2.idUsuario
 INNER JOIN usuarios_tmw AS T3 ON T1.idUsuario = T3.idUsuario)
 
 SELECT 
-    DATE('2025-10-01', '-1 DAY') AS dtRef,
+    DATE('{date}', '-1 DAY') AS dtRef,
     *
 
 FROM tb_join
