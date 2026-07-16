@@ -6,7 +6,7 @@ WITH tb_life_cycle_atual AS
 
     FROM life_cycle
 
-    WHERE dtRef = DATE('2026-05-01', '-1 DAY')),
+    WHERE dtRef = DATE('{date}', '-1 DAY')),
 
 tb_life_cycle_D28 AS (
     SELECT 
@@ -15,7 +15,7 @@ tb_life_cycle_D28 AS (
 
     FROM life_cycle
 
-    WHERE dtRef = DATE('2026-05-01', '-29 DAY')), 
+    WHERE dtRef = DATE('{date}', '-29 DAY')), 
 
 tb_share_ciclos AS (
     SELECT IdCliente,
@@ -30,7 +30,7 @@ tb_share_ciclos AS (
 
     FROM life_cycle
 
-    WHERE dtRef < '2026-05-01'
+    WHERE dtRef < '{date}'
 
     GROUP BY IdCliente),
 
@@ -64,7 +64,7 @@ tb_join AS (
 )
 
 SELECT 
-    DATE('2025-10-01', '-1 DAY') AS dtRef,
+    DATE('{date}', '-1 DAY') AS dtRef,
     *
 
 FROM tb_join
