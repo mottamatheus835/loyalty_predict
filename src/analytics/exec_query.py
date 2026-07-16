@@ -12,12 +12,16 @@ def import_query(path):
     return query
 
 
-def date_range(start,stop):
+def date_range(start,stop, monthly=False):
     dates = []
     while start <= stop:
         dates.append(start)
         dt_start = datetime.datetime.strptime(start, "%Y-%m-%d") + datetime.timedelta(days=1)
         start = datetime.datetime.strftime(dt_start,'%Y-%m-%d')
+    
+    if monthly:
+        return [i for i in dates if i.endeswith('01')]
+    
     return dates
 
 
@@ -38,10 +42,10 @@ def exec_query(table, db_origin, db_target, dt_start, dt_stop):
                 conn.commit()
             except Exception as Erro:
                 
-                if Erro == f"(sqlite3.OperationalError) no such table: {table}":
-                    print(f"Uma nova tabela chamada {table} será criada, pois ela não existe")
+                if "no such table" in str(Erro):
+                    print(f"\nUma nova tabela chamada {table} será criada, pois ela não existe")
                 else:
-                    print(Erro)
+                    print(str(Erro))
         query_format = query.format(date=i)
         
         df = pd.read_sql(query_format, engine_application)
@@ -51,7 +55,7 @@ def exec_query(table, db_origin, db_target, dt_start, dt_stop):
 def main():
 
     parser = argparse.ArgumentParser()
-    parser.add_argument('--db_origin', choices=['loyalty_system', 'education_platform'],
+    parser.add_argument('--db_origin', choices=['loyalty_system', 'education_platform', 'analytics'],
                         default= 'loyalty_system')
     parser.add_argument('--db_target', choices=['analytics'], default='analytics')
 
