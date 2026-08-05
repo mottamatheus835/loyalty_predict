@@ -1,4 +1,6 @@
-CREATE TABLE abt_fiel AS 
+DROP TABLE IF EXISTS abt_fiel;
+
+CREATE TABLE IF NOT EXISTS abt_fiel AS 
 
 WITH tb_join AS(
 SELECT 
@@ -79,16 +81,16 @@ SELECT
         T2.qtdeHorasD56,
         T2.avgIntervaloDiasVida,
         T2.avgIntervaloDiasD28,
-        T2.qtdeChatMessage,
-        T2.qtdeAirflowLover,
-        T2.qtdeRLover,
-        T2.qtdeResgatarPonei,
-        T2.qtdeListadepresenca,
-        T2.qtdePresencaStreak,
-        T2.qtdeTrocadePontosStreamElements,
-        T2.qtdeReembolsoTrocadePontosStreamElements,
-        T2.qtdeRPG,
-        T2.qtdeChurnModel,
+        T2.ChatMessageShare,
+        T2.AirflowLoverShare,
+        T2.RLoverShare,
+        T2.ResgatarPoneiShare,
+        T2.ListadepresencaShare,
+        T2.PresencaStreakShare,
+        T2.TrocadePontosStreamElementsShare,
+        T2.ReembolsoTrocadePontosStreamElementsShare,
+        T2.RPGShare,
+        T2.ChurnModelShare,
         --fs_life_cycle
         T3.qtdeFrequencia,
         T3.descLifeCycleAtual,
@@ -148,4 +150,5 @@ AND T1.dtRef = T3.dtRef
 LEFT JOIN fs_education AS T4 ON T1.IdCliente = T4.IdCliente
 AND T1.dtRef = T4.dtRef
 
+WHERE T3.dtRef IS NOT NULL
 ;   

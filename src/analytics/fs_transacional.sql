@@ -106,16 +106,16 @@ tb_intervalo_dias AS (
 
 tb_share_produtos AS (SELECT 
                 IdCliente,
-                1. * COUNT(CASE WHEN DescNomeProduto = 'ChatMessage' THEN T1.IdTransacao END)  / COUNT(T1.IdTransacao) AS qtdeChatMessage,
-                1. * COUNT(CASE WHEN DescNomeProduto = 'Airflow Lover' THEN T1.IdTransacao END) / COUNT(T1.IdTransacao) AS qtdeAirflowLover,
-                1. * COUNT(CASE WHEN DescNomeProduto = 'R Lover' THEN T1.IdTransacao END) / COUNT(T1.IdTransacao) AS qtdeRLover,
-                1. * COUNT(CASE WHEN DescNomeProduto = 'Resgatar Ponei' THEN T1.IdTransacao END) / COUNT(T1.IdTransacao) AS qtdeResgatarPonei,
-                1. * COUNT(CASE WHEN DescNomeProduto = 'Lista de presença' THEN T1.IdTransacao END) / COUNT(T1.IdTransacao) AS qtdeListadepresenca,
-                1. * COUNT(CASE WHEN DescNomeProduto = 'Presença Streak' THEN T1.IdTransacao END) / COUNT(T1.IdTransacao) AS qtdePresencaStreak,
-                1. * COUNT(CASE WHEN DescNomeProduto = 'Troca de Pontos StreamElements' THEN T1.IdTransacao END) / COUNT(T1.IdTransacao) AS qtdeTrocadePontosStreamElements,
-                1. * COUNT(CASE WHEN DescNomeProduto = 'Reembolso: Troca de Pontos StreamElements' THEN T1.IdTransacao END) / COUNT(T1.IdTransacao) AS qtdeReembolsoTrocadePontosStreamElements,
-                1. * COUNT(CASE WHEN DescCategoriaProduto = 'rpg' THEN T1.IdTransacao END) / COUNT(T1.IdTransacao) AS qtdeRPG,
-                1. * COUNT(CASE WHEN DescCategoriaProduto = 'churn_model' THEN T1.IdTransacao END) / COUNT(T1.IdTransacao) AS qtdeChurnModel
+                1. * COUNT(CASE WHEN DescNomeProduto = 'ChatMessage' THEN T1.IdTransacao END)  / COUNT(T1.IdTransacao) AS ChatMessageShare,
+                1. * COUNT(CASE WHEN DescNomeProduto = 'Airflow Lover' THEN T1.IdTransacao END) / COUNT(T1.IdTransacao) AS AirflowLoverShare,
+                1. * COUNT(CASE WHEN DescNomeProduto = 'R Lover' THEN T1.IdTransacao END) / COUNT(T1.IdTransacao) AS RLoverShare,
+                1. * COUNT(CASE WHEN DescNomeProduto = 'Resgatar Ponei' THEN T1.IdTransacao END) / COUNT(T1.IdTransacao) AS ResgatarPoneiShare,
+                1. * COUNT(CASE WHEN DescNomeProduto = 'Lista de presença' THEN T1.IdTransacao END) / COUNT(T1.IdTransacao) AS ListadepresencaShare,
+                1. * COUNT(CASE WHEN DescNomeProduto = 'Presença Streak' THEN T1.IdTransacao END) / COUNT(T1.IdTransacao) AS PresencaStreakShare,
+                1. * COUNT(CASE WHEN DescNomeProduto = 'Troca de Pontos StreamElements' THEN T1.IdTransacao END) / COUNT(T1.IdTransacao) AS TrocadePontosStreamElementsShare,
+                1. * COUNT(CASE WHEN DescNomeProduto = 'Reembolso: Troca de Pontos StreamElements' THEN T1.IdTransacao END) / COUNT(T1.IdTransacao) AS ReembolsoTrocadePontosStreamElementsShare,
+                1. * COUNT(CASE WHEN DescCategoriaProduto = 'rpg' THEN T1.IdTransacao END) / COUNT(T1.IdTransacao) AS RPGShare,
+                1. * COUNT(CASE WHEN DescCategoriaProduto = 'churn_model' THEN T1.IdTransacao END) / COUNT(T1.IdTransacao) As ChurnModelShare
 
 
         FROM tb_transacao AS T1
