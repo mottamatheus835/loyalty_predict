@@ -20,7 +20,7 @@ def date_range(start,stop, monthly=False):
         start = datetime.datetime.strftime(dt_start,'%Y-%m-%d')
     
     if monthly:
-        return [i for i in dates if i.endeswith('01')]
+        return [i for i in dates if i.endswith('01')]
     
     return dates
 
@@ -73,9 +73,5 @@ def main():
 #%%
 if __name__ ==  "__main__":
     main()
-
-
-
-
 
 # %%
