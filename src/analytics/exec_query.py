@@ -25,13 +25,13 @@ def date_range(start,stop, monthly=False):
     return dates
 
 
-def exec_query(table, db_origin, db_target, dt_start, dt_stop):
+def exec_query(table, db_origin, db_target, dt_start, dt_stop, monthly):
     query = import_query(f'{table}.sql')
 
     engine_application = sqlalchemy.create_engine(f'sqlite:///../../data/{db_origin}/database.db')
     engine_analytical = sqlalchemy.create_engine(f'sqlite:///../../data/{db_target}/database.db')
 
-    dates = date_range(dt_start, dt_stop)
+    dates = date_range(dt_start, dt_stop, monthly)
 
 
     for i in tqdm(dates, desc="Progresso: "):
@@ -65,10 +65,11 @@ def main():
 
     stop = datetime.datetime.now().strftime('%Y-%m-%d')
     parser.add_argument('--dt_stop', type=str, default=stop)
+    parser.add_argument('--monthly', action='store_true')
 
     args = parser.parse_args()
 
-    exec_query(args.table, args.db_origin, args.db_target, args.dt_start, args.dt_stop)
+    exec_query(args.table, args.db_origin, args.db_target, args.dt_start, args.dt_stop, args.monthly)
 
 #%%
 if __name__ ==  "__main__":
